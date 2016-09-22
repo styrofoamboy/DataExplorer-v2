@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2006 sp1 U (http://www.altova.com) by Emily Van Nes (Cal Data Systems, Inc.) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="DataExplorerConfig">
+		<xs:annotation>
+			<xs:documentation>Comment describing your root element</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:choice>
+				<xs:element name="DataPanels" minOccurs="0">
+					<xs:complexType>
+						<xs:choice>
+							<xs:element name="DataPanel">
+								<xs:complexType>
+									<xs:attribute name="PanelName"/>
+									<xs:attribute name="ConnectionString"/>
+									<xs:attribute name="ProviderID"/>
+									<xs:attribute name="Query"/>
+								</xs:complexType>
+							</xs:element>
+						</xs:choice>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="ProjectInfo">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="CreatedBy" type="xs:string" nillable="true"/>
+							<xs:element name="CreatedDate" type="xs:dateTime" nillable="true"/>
+							<xs:element name="LastModified" type="xs:dateTime" nillable="true"/>
+							<xs:element name="Notes" type="xs:string" nillable="true"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

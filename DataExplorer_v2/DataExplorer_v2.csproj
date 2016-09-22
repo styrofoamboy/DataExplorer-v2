@@ -1,0 +1,474 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{8EC7EDB4-89C5-4EA5-BDE4-40509702B50C}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DataExplorer</RootNamespace>
+    <AssemblyName>DataExplorer_v2</AssemblyName>
+    <StartupObject>DataExplorer.Program</StartupObject>
+    <ApplicationIcon>WorldPlug.ico</ApplicationIcon>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
+    <PublishUrl>http://localhost/DataExplorer_v2/</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Web</InstallFrom>
+    <UpdateEnabled>true</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>true</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ctrlColorButton.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DataPanelManager.cs" />
+    <Compile Include="DataQuery.cs" />
+    <Compile Include="DataQueryPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DataQueryPanel.Designer.cs">
+      <DependentUpon>DataQueryPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="dbInfoGenerator.cs" />
+    <Compile Include="frmAutoHighlight.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmAutoHighlight.Designer.cs">
+      <DependentUpon>frmAutoHighlight.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmClrByVal.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmClrByVal.Designer.cs">
+      <DependentUpon>frmClrByVal.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmDateCalc.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmDateCalc.designer.cs">
+      <DependentUpon>frmDateCalc.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmDataExport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmDataExport.Designer.cs">
+      <DependentUpon>frmDataExport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmDbInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmDbInfo.Designer.cs">
+      <DependentUpon>frmDbInfo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmMain.Designer.cs">
+      <DependentUpon>frmMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmPrefs.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmPrefs.Designer.cs">
+      <DependentUpon>frmPrefs.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmProjectInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmProjectInfo.Designer.cs">
+      <DependentUpon>frmProjectInfo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmProjectNote.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmProjectNote.Designer.cs">
+      <DependentUpon>frmProjectNote.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmRegConn.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmRegConn.designer.cs">
+      <DependentUpon>frmRegConn.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmReplaceText.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmReplaceText.Designer.cs">
+      <DependentUpon>frmReplaceText.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmRestoreAutoSave.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmRestoreAutoSave.Designer.cs">
+      <DependentUpon>frmRestoreAutoSave.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmSplash.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmSplash.Designer.cs">
+      <DependentUpon>frmSplash.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmSqlBrowser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmSqlBrowser.designer.cs">
+      <DependentUpon>frmSqlBrowser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmTableCreate.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmTableCreate.Designer.cs">
+      <DependentUpon>frmTableCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmTemplateVars.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmTemplateVars.Designer.cs">
+      <DependentUpon>frmTemplateVars.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmVarEdit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmVarEdit.designer.cs">
+      <DependentUpon>frmVarEdit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ImportWizard Controls\ctrlFlatFileDestination.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ImportWizard Controls\ctrlFlatFileDestination.Designer.cs">
+      <DependentUpon>ctrlFlatFileDestination.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ImportWizard Controls\ctrlFlatFileSelect.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ImportWizard Controls\ctrlFlatFileSelect.Designer.cs">
+      <DependentUpon>ctrlFlatFileSelect.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ImportWizard Controls\ctrlFlatFileSource.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ImportWizard Controls\ctrlFlatFileSource.Designer.cs">
+      <DependentUpon>ctrlFlatFileSource.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ImportWizard Controls\ctrlFlatFileSourceAdvancedConfig.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ImportWizard Controls\ctrlFlatFileSourceAdvancedConfig.Designer.cs">
+      <DependentUpon>ctrlFlatFileSourceAdvancedConfig.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ImportWizard Controls\ctrlFlatFileSourceColumnConfig.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ImportWizard Controls\ctrlFlatFileSourceColumnConfig.Designer.cs">
+      <DependentUpon>ctrlFlatFileSourceColumnConfig.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ImportWizard Controls\ctrlFlatFileSourceFileSelect.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ImportWizard Controls\ctrlFlatFileSourceFileSelect.Designer.cs">
+      <DependentUpon>ctrlFlatFileSourceFileSelect.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ImportWizard Controls\ctrlFlatFileSourcePreview.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ImportWizard Controls\ctrlFlatFileSourcePreview.Designer.cs">
+      <DependentUpon>ctrlFlatFileSourcePreview.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ImportWizard Controls\ctrlSqlConfig.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ImportWizard Controls\ctrlSqlConfig.Designer.cs">
+      <DependentUpon>ctrlSqlConfig.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ImportWizard Controls\Enums.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="DataQueryPanel.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>DataQueryPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmAutoHighlight.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmAutoHighlight.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmClrByVal.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmClrByVal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmDateCalc.resx">
+      <DependentUpon>frmDateCalc.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmDataExport.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmDataExport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmDbInfo.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmDbInfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmMain.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmPrefs.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmPrefs.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmProjectInfo.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmProjectInfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmProjectNote.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmProjectNote.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmRegConn.resx">
+      <DependentUpon>frmRegConn.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmReplaceText.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmReplaceText.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmRestoreAutoSave.resx">
+      <DependentUpon>frmRestoreAutoSave.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmSplash.resx">
+      <DependentUpon>frmSplash.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmSqlBrowser.resx">
+      <DependentUpon>frmSqlBrowser.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmTableCreate.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmTableCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmTemplateVars.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmTemplateVars.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmVarEdit.resx">
+      <DependentUpon>frmVarEdit.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ImportWizard Controls\ctrlFlatFileDestination.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ctrlFlatFileDestination.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ImportWizard Controls\ctrlFlatFileSelect.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ctrlFlatFileSelect.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ImportWizard Controls\ctrlFlatFileSource.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ctrlFlatFileSource.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ImportWizard Controls\ctrlFlatFileSourceAdvancedConfig.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ctrlFlatFileSourceAdvancedConfig.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ImportWizard Controls\ctrlFlatFileSourceColumnConfig.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ctrlFlatFileSourceColumnConfig.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ImportWizard Controls\ctrlFlatFileSourceFileSelect.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ctrlFlatFileSourceFileSelect.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ImportWizard Controls\ctrlFlatFileSourcePreview.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ctrlFlatFileSourcePreview.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ImportWizard Controls\ctrlSqlConfig.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ctrlSqlConfig.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SqlBrowserTreeView.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>SqlBrowserTreeView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UniVarControl.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>UniVarControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="app.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="SqlBrowserTreeView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="StructsAndCollections.cs" />
+    <Compile Include="UniVarControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UniVarControl.Designer.cs">
+      <DependentUpon>UniVarControl.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\AddTableHS.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CalculatorHS.BMP" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Calendar_schedule.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\VSProject_generatedfile.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\appwindow_database_16.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\FormRunHS.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\OpenSelectedItemHS.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\saveHS.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GradBg.gif" />
+    <None Include="SavedConfig.xsd">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Stop Button.png" />
+    <None Include="Resources\Save Button.png" />
+    <None Include="Resources\Save As Button.png" />
+    <None Include="Resources\Open Button.png" />
+    <None Include="Resources\Play Button.png" />
+    <None Include="Resources\SQLExplorerButton.png" />
+    <None Include="Resources\Stop Button 2.png" />
+    <None Include="Resources\Play Button 2.png" />
+    <None Include="Resources\SQL Text Button.png" />
+    <None Include="Resources\Commit Button.png" />
+    <None Include="Resources\Export2.png" />
+    <None Include="Resources\Import.png" />
+    <None Include="Resources\Rollback Button.png" />
+    <None Include="Resources\Table Data.png" />
+    <None Include="Resources\Plus.png" />
+    <None Include="Resources\Plus3.png" />
+    <None Include="Resources\New File.png" />
+    <None Include="Resources\Thumb 11-23-071.bmp" />
+    <None Include="Resources\Thumb 11-23-072.bmp" />
+    <None Include="Resources\Final Composite02 11-23-071.bmp" />
+    <Content Include="WorldPlug.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\RainstormStudios\Project Files\RainstormStudios.Controls\RainstormStudios.Controls.csproj">
+      <Project>{B2349047-501B-40FF-A45F-B5E1FAEC1CF8}</Project>
+      <Name>RainstormStudios.Controls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\RainstormStudios\Project Files\RainstormStudios.Data.DB2\RainstormStudios.Data.DB2.csproj">
+      <Project>{87F01870-B071-4528-A21B-F20857D9CF12}</Project>
+      <Name>RainstormStudios.Data.DB2</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\RainstormStudios\Project Files\RainstormStudios.Data\RainstormStudios.Data.csproj">
+      <Project>{70D010C8-4471-4210-A5E4-F6498AFA78EF}</Project>
+      <Name>RainstormStudios.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\RainstormStudios\Project Files\RainstormStudios.Drawing\RainstormStudios.Drawing.csproj">
+      <Project>{7FCDA335-1F3C-438F-AEE7-BC86F58E6670}</Project>
+      <Name>RainstormStudios.Drawing</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\RainstormStudios\Project Files\RainstormStudios.Unmanaged\RainstormStudios.Unmanaged.csproj">
+      <Project>{4A705927-AFD4-4ACC-83C3-9F297C77FCD2}</Project>
+      <Name>RainstormStudios.Unmanaged</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\RainstormStudios\Project Files\RainstormStudios\RainstormStudios.csproj">
+      <Project>{2B3495A5-12D8-46AF-9A15-4591BC67218E}</Project>
+      <Name>RainstormStudios</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
