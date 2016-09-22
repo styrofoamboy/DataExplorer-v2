@@ -1,6 +1,8 @@
 # DataExplorer-v2
 A powerful and flexible data query tool.
 
+NOTE:  The solution file does require several projects from the RainstormStudios repo.  You will need to download that code seperately.
+
 I started this project several years ago, as an easy way to connect with both SQL database instsances, as well as CSV and Excel files.
 
 Over the years, it was expanded with data visualization functionality, among other features, as needs arose.
