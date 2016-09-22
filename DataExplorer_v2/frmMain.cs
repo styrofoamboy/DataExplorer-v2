@@ -458,6 +458,8 @@ namespace DataExplorer
             this._unsaved.Value = false;
             return true;
         }
+        private void AutoSave()
+        { this.SaveAllPanels(this._autoSaveFileName, false, true); }
         private void SaveAllPanels(string fileName)
         { this.SaveAllPanels(fileName, false, false); }
         private void SaveAllPanels(string fileName, bool template, bool autoSave)
@@ -545,6 +547,10 @@ namespace DataExplorer
                     this._unsaved.Value = false;
                     this._curFile = fileName;
                     this.Text = "Data Explorer - " + fileName;
+                }
+                else if (autoSave)
+                {
+                    this._autoSaveNeeded = false;
                 }
 
                 // Update recent file list.
@@ -1213,10 +1219,7 @@ namespace DataExplorer
                 this._autoSaveMRE.WaitOne(autoSaveInterval);
 
                 if (!this._autoSaveTerminate && this._autoSaveNeeded)
-                {
-                    this.SaveAllPanels(this._autoSaveFileName, false, true);
-                    this._autoSaveNeeded = false;
-                }
+                    this.AutoSave();
             }
         }
         private void AutoSaveWorkCallback(IAsyncResult state)
@@ -1699,6 +1702,7 @@ namespace DataExplorer
         }
         private void dataQueryPanel_onQueryStarted(object sender, EventArgs e)
         {
+            this.AutoSave();
             DataPanelManager dpman = this._dpManCol[((Control)sender).Tag.ToString()];
             RainstormStudios.CrossThreadUI.SetWidth(dpman.TabButton, dpman.TabButton.Width - dpman.AnimWidget.Width - 4);
             RainstormStudios.CrossThreadUI.SetVisible(dpman.AnimWidget, true);
