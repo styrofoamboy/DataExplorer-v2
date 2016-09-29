@@ -7,6 +7,7 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using RainstormStudios.IO;
 using RainstormStudios.Controls;
 using RainstormStudios.Data;
 using RainstormStudios.Collections;
@@ -23,8 +24,6 @@ namespace DataExplorer
             animRefreshMS = 50,
             tabHeight = 22,
             tabPadding = 6;
-        const int
-            autoSaveInterval = 15;
         private int
             _ctrlCnt = -1,
             _varPanSz = -1;
@@ -74,18 +73,8 @@ namespace DataExplorer
             _drgThreshStart = Point.Empty;
         private DataPanelPrefs
             _defPrefs;
-        private bool
-            _autoSaveTerminate = false,
-            _autoSaveNeeded = false;
-        System.Threading.ManualResetEvent
-            _autoSaveMRE;
-        private string
-            _autoSaveFileName;
-        //***************************************************************************
-        // Thread Delegates
-        // 
-        private delegate void
-            AutoSaveWorkerDelegate();
+        Guid
+            _autoSaveProcID;
         #endregion
 
         #region Properties
@@ -116,8 +105,8 @@ namespace DataExplorer
             this._noteCol = new ProjectNoteCollection();
             this._mruList = new StringCollection();
 
-            this._autoSaveFileName = System.IO.Path.Combine(Application.UserAppDataPath, string.Format("de_autosave_{0}_{1}.tmp", DateTime.Now.ToString("MMddyy"), Guid.NewGuid()));
-            this._autoSaveMRE = new System.Threading.ManualResetEvent(false);
+            this._autoSaveProcID = Guid.NewGuid();
+            AutoSaveManager.RegisterProcess(this._autoSaveProcID, Application.UserAppDataPath, "Data Explorer v2", new AutoSaveManager.SaveFileDelegate(this.CreateAutoSaveFile));
         }
         public frmMain(string openFile)
             : this()
@@ -125,6 +114,25 @@ namespace DataExplorer
             string fullPath = Path.GetFullPath(openFile);
             if (File.Exists(fullPath))
                 this.LoadPanels(fullPath);
+        }
+        #endregion
+
+        #region Public Methods
+        //***************************************************************************
+        // Public Methods
+        // 
+        public bool CreateAutoSaveFile(string fileName)
+        {
+            try
+            {
+                this.SaveAllPanels(fileName, false, true);
+                return true;
+            }
+            catch
+            {
+                // TODO:: this should probably log some kind of error.
+                return false;
+            }
         }
         #endregion
 
@@ -458,8 +466,6 @@ namespace DataExplorer
             this._unsaved.Value = false;
             return true;
         }
-        private void AutoSave()
-        { this.SaveAllPanels(this._autoSaveFileName, false, true); }
         private void SaveAllPanels(string fileName)
         { this.SaveAllPanels(fileName, false, false); }
         private void SaveAllPanels(string fileName, bool template, bool autoSave)
@@ -547,10 +553,6 @@ namespace DataExplorer
                     this._unsaved.Value = false;
                     this._curFile = fileName;
                     this.Text = "Data Explorer - " + fileName;
-                }
-                else if (autoSave)
-                {
-                    this._autoSaveNeeded = false;
                 }
 
                 // Update recent file list.
@@ -733,7 +735,7 @@ namespace DataExplorer
                     this.ImportPanels(fileName, restoreAutoSave);
                     if (this._dpManCol.Count > 0)
                         this.UpdateActiveTab(this._dpManCol[0]);
-                    if (!this._templateFile)
+                    if (!this._templateFile && !restoreAutoSave)
                     {
                         this._curFile = fileName;
 #if DEBUG
@@ -1164,21 +1166,11 @@ namespace DataExplorer
             //this._showSqlExpThread = new System.Threading.WaitCallback(this.DoShowSqlExp);
             //this._hideSqlExpThread = new System.Threading.WaitCallback(this.DoHideSqlExp);
         }
-        private void ClearExistingTempFile(string fileName)
-        {
-            try
-            {
-                if (System.IO.File.Exists(fileName))
-                    System.IO.File.Delete(fileName);
-            }
-            catch (Exception ex)
-            { MessageBox.Show("Unable to clear auto-save temp file: " + ex.Message); }
-        }
         private void CheckForTempFile()
         {
-            DirectoryInfo tempDir = new DirectoryInfo(Application.UserAppDataPath);
-            FileInfo[] tempFiles = tempDir.GetFiles("de_autosave_*.tmp");
-            if(tempFiles.Length>0){
+            FileInfo[] tempFiles = AutoSaveManager.GetExistingFiles(this._autoSaveProcID);
+            if (tempFiles.Length > 0)
+            {
                 using (frmRestoreAutoSave frm = new frmRestoreAutoSave())
                 {
                     frm.LoadFiles(tempFiles);
@@ -1187,46 +1179,26 @@ namespace DataExplorer
                     {
                         case System.Windows.Forms.DialogResult.Ignore:
                             // "Ignore" means to delete all temp files.
-                            for (int i = 0; i < tempFiles.Length; i++)
-                                this.ClearExistingTempFile(tempFiles[i].FullName);
-                                break;
+                            AutoSaveManager.ClearExistingTempFiles(this._autoSaveProcID);
+                            break;
                         case System.Windows.Forms.DialogResult.OK:
                             // "OK" means restore selected file, leave others in place.
                             string restoreFile = frm.GetSelectedFile();
                             if (!string.IsNullOrEmpty(restoreFile))
                             {
                                 this.LoadPanels(restoreFile, true);
-                                this.ClearExistingTempFile(restoreFile);
+                                if (File.Exists(restoreFile))
+                                    File.Delete(restoreFile);
                             }
                             break;
                         case System.Windows.Forms.DialogResult.Cancel:
-                            // This *should* only be "Cancel", just do nothing.
+                            // If the user clicked "Cancel", just do nothing.
                             break;
                         default:
                             throw new Exception("Unexpected dialog result: " + dlgResult.ToString());
                     }
                 }
             }
-        }
-        //***************************************************************************
-        // Thread Wokers
-        // 
-        private void AutoSaveWorker()
-        {
-            TimeSpan autoSaveTimeout = new TimeSpan(0,0,autoSaveInterval);
-            while (!this._autoSaveTerminate)
-            {
-                this._autoSaveMRE.WaitOne(autoSaveInterval);
-
-                if (!this._autoSaveTerminate && this._autoSaveNeeded)
-                    this.AutoSave();
-            }
-        }
-        private void AutoSaveWorkCallback(IAsyncResult state)
-        {
-            // No run result.  Just make sure that we terminate the thread properly.
-            AutoSaveWorkerDelegate del = (AutoSaveWorkerDelegate)state.AsyncState;
-            del.EndInvoke(state);
         }
         #endregion
 
@@ -1702,7 +1674,7 @@ namespace DataExplorer
         }
         private void dataQueryPanel_onQueryStarted(object sender, EventArgs e)
         {
-            this.AutoSave();
+            AutoSaveManager.ForceAutoSave(this._autoSaveProcID);
             DataPanelManager dpman = this._dpManCol[((Control)sender).Tag.ToString()];
             RainstormStudios.CrossThreadUI.SetWidth(dpman.TabButton, dpman.TabButton.Width - dpman.AnimWidget.Width - 4);
             RainstormStudios.CrossThreadUI.SetVisible(dpman.AnimWidget, true);
@@ -1792,8 +1764,7 @@ namespace DataExplorer
                 this.Text += "*";
             this.cmdSave.Enabled = this._unsaved;
             this.mnuFileSave.Enabled = this._unsaved;
-            if (this._unsaved && !this._autoSaveNeeded)
-                this._autoSaveNeeded = true;
+            AutoSaveManager.MarkNeedSave(this._autoSaveProcID);
         }
         private void splSideBar_onSplitterMoved(object sender, SplitterEventArgs e)
         {
@@ -2046,8 +2017,6 @@ namespace DataExplorer
             this.ResumeLayout(true);
 
             this.CheckForTempFile();
-            AutoSaveWorkerDelegate del = new AutoSaveWorkerDelegate(this.AutoSaveWorker);
-            del.BeginInvoke(new AsyncCallback(this.AutoSaveWorkCallback), del);
         }
         protected override void OnTextChanged(EventArgs e)
         {
@@ -2075,9 +2044,11 @@ namespace DataExplorer
                     this._frmSqlBrowse.Dispose();
                 for (int i = 0; i < this._dpManCol.Count; i++)
                     this._dpManCol[i].Dispose();
-                this._autoSaveTerminate = true;
-                this._autoSaveMRE.Set();
-                this.ClearExistingTempFile(this._autoSaveFileName);
+
+                try
+                { AutoSaveManager.DeregisterProcess(this._autoSaveProcID); }
+                catch (Exception ex)
+                { MessageBox.Show("Unable to clear auto-save temp file: " + ex.Message); }
             }
             base.OnClosing(e);
         }
