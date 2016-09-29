@@ -388,6 +388,18 @@ namespace DataExplorer
         }
         private void GetAvg()
         {
+            double sum = 0;
+            int rowCount = 0;
+            int rowFail = 0;
+            foreach (DataGridViewCell cell in this._cntxMenu.SelectedCells)
+            {
+                double cellVal;
+                if (double.TryParse(cell.Value.ToString(), out cellVal))
+                    sum += cellVal;
+                else
+                    rowFail++;
+            }
+            MessageBox.Show(this, string.Format("Average: {0}{1}", (sum / rowCount), (rowFail > 0) ? "\n\n" + rowFail.ToString() + " Row(s) failed to evaluate to numeric values." : ""), "Sum of Selected Fields");
         }
         private void SetClipboard(NumberedDataGridView ndgv, bool includeHeaders = false)
         {
