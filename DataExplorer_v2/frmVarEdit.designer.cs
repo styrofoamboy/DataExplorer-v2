@@ -64,7 +64,7 @@ namespace DataExplorer
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtVarName.Location = new System.Drawing.Point(12, 25);
             this.txtVarName.Name = "txtVarName";
-            this.txtVarName.Size = new System.Drawing.Size(230, 20);
+            this.txtVarName.Size = new System.Drawing.Size(243, 20);
             this.txtVarName.TabIndex = 2;
             // 
             // txtVarValue
@@ -73,7 +73,7 @@ namespace DataExplorer
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtVarValue.Location = new System.Drawing.Point(12, 80);
             this.txtVarValue.Name = "txtVarValue";
-            this.txtVarValue.Size = new System.Drawing.Size(353, 20);
+            this.txtVarValue.Size = new System.Drawing.Size(366, 20);
             this.txtVarValue.TabIndex = 3;
             // 
             // cmdOK
@@ -84,7 +84,7 @@ namespace DataExplorer
             this.cmdOK.BorderWidth = 1;
             graphicsPath1.FillMode = System.Drawing.Drawing2D.FillMode.Alternate;
             this.cmdOK.ButtonShape = graphicsPath1;
-            this.cmdOK.CornerFeather = 0;
+            this.cmdOK.CornerFeather = 5;
             this.cmdOK.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.cmdOK.DisabledBackColor = System.Drawing.Color.WhiteSmoke;
             this.cmdOK.DisabledForeColor = System.Drawing.Color.Gray;
@@ -94,7 +94,7 @@ namespace DataExplorer
             this.cmdOK.HoverHighlightOpacity = 200;
             this.cmdOK.HoverImage = null;
             this.cmdOK.ImagePadding = 0;
-            this.cmdOK.Location = new System.Drawing.Point(209, 90);
+            this.cmdOK.Location = new System.Drawing.Point(222, 128);
             this.cmdOK.MinimumSize = new System.Drawing.Size(8, 8);
             this.cmdOK.MouseDownImage = null;
             this.cmdOK.Name = "cmdOK";
@@ -117,7 +117,7 @@ namespace DataExplorer
             this.cmdCancel.BorderWidth = 1;
             graphicsPath2.FillMode = System.Drawing.Drawing2D.FillMode.Alternate;
             this.cmdCancel.ButtonShape = graphicsPath2;
-            this.cmdCancel.CornerFeather = 0;
+            this.cmdCancel.CornerFeather = 5;
             this.cmdCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.cmdCancel.DisabledBackColor = System.Drawing.Color.WhiteSmoke;
             this.cmdCancel.DisabledForeColor = System.Drawing.Color.Gray;
@@ -127,7 +127,7 @@ namespace DataExplorer
             this.cmdCancel.HoverHighlightOpacity = 200;
             this.cmdCancel.HoverImage = null;
             this.cmdCancel.ImagePadding = 0;
-            this.cmdCancel.Location = new System.Drawing.Point(290, 90);
+            this.cmdCancel.Location = new System.Drawing.Point(303, 128);
             this.cmdCancel.MinimumSize = new System.Drawing.Size(8, 8);
             this.cmdCancel.MouseDownImage = null;
             this.cmdCancel.Name = "cmdCancel";
@@ -204,8 +204,70 @@ namespace DataExplorer
             "VarChar",
             "Variant",
             "Xml",
+            "Udt",
+            "Structured",
+            "Date",
+            "Time",
+            "DateTime2",
+            "DateTimeOffset",
+            "BigInt",
+            "Binary",
+            "Bit",
+            "Char",
+            "DateTime",
+            "Decimal",
+            "Float",
+            "Image",
+            "Int",
+            "Money",
+            "NChar",
+            "NText",
+            "NVarChar",
+            "Real",
+            "UniqueIdentifier",
+            "SmallDateTime",
+            "SmallInt",
+            "SmallMoney",
+            "Text",
+            "Timestamp",
+            "TinyInt",
+            "VarBinary",
+            "VarChar",
+            "Variant",
+            "Xml",
+            "Udt",
+            "Structured",
+            "Date",
+            "Time",
+            "DateTime2",
+            "DateTimeOffset",
+            "BigInt",
+            "Binary",
+            "Bit",
+            "Char",
+            "DateTime",
+            "Decimal",
+            "Float",
+            "Image",
+            "Int",
+            "Money",
+            "NChar",
+            "NText",
+            "NVarChar",
+            "Real",
+            "UniqueIdentifier",
+            "SmallDateTime",
+            "SmallInt",
+            "SmallMoney",
+            "Text",
+            "Timestamp",
+            "TinyInt",
+            "VarBinary",
+            "VarChar",
+            "Variant",
+            "Xml",
             "Udt"});
-            this.sqlDataTypeList1.Location = new System.Drawing.Point(248, 25);
+            this.sqlDataTypeList1.Location = new System.Drawing.Point(261, 25);
             this.sqlDataTypeList1.Name = "sqlDataTypeList1";
             this.sqlDataTypeList1.SelectedType = System.Data.SqlDbType.Variant;
             this.sqlDataTypeList1.Size = new System.Drawing.Size(117, 21);
@@ -215,7 +277,7 @@ namespace DataExplorer
             // 
             this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(245, 9);
+            this.label3.Location = new System.Drawing.Point(258, 9);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(60, 13);
             this.label3.TabIndex = 7;
@@ -227,7 +289,7 @@ namespace DataExplorer
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.cmdCancel;
-            this.ClientSize = new System.Drawing.Size(377, 143);
+            this.ClientSize = new System.Drawing.Size(390, 143);
             this.ControlBox = false;
             this.Controls.Add(this.label3);
             this.Controls.Add(this.sqlDataTypeList1);
