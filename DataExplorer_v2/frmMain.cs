@@ -1000,11 +1000,15 @@ namespace DataExplorer
         }
         private void RefreshMRUList()
         {
-            ToolStripMenuItem mnu=(ToolStripMenuItem)this.mnuFile.DropDownItems["mnuFileMRU"];
+            ToolStripMenuItem mnu = (ToolStripMenuItem)this.mnuFile.DropDownItems["mnuFileMRU"];
             mnu.DropDownItems.Clear();
             if (this._mruList.Count > 0)
                 for (int i = 0; i < this._mruList.Count; i++)
-                    mnu.DropDownItems.Add(new ToolStripMenuItem(System.IO.Path.GetFileName(this._mruList[i]), null, new EventHandler(this.mnuMru_onClick), "mnuMRU" + this._mruList.GetKey(i)));
+                {
+                    var menuItem = new ToolStripMenuItem(System.IO.Path.GetFileName(this._mruList[i]), null, new EventHandler(this.mnuMru_onClick), "mnuMRU" + this._mruList.GetKey(i));
+                    menuItem.ToolTipText = this._mruList[i];
+                    mnu.DropDownItems.Add(menuItem);
+                }
             else
             {
                 ToolStripMenuItem tsmi = new ToolStripMenuItem("None");
