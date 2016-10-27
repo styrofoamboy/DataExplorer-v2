@@ -788,6 +788,8 @@ namespace DataExplorer
                 if (locx >= 0 || locy >= 0)
                     this.Location = new Point((int)Math.Min(locx, scrn.Right - this.Width), (int)Math.Min(locy, scrn.Bottom - this.Height));
                 this.WindowState = (FormWindowState)Enum.Parse(typeof(FormWindowState), (string)userData.GetValue("WinState", "Normal"));
+                if (this.WindowState == FormWindowState.Minimized)
+                    this.WindowState = FormWindowState.Normal;
 
                 // Load the Registered Connection Strings
                 Microsoft.Win32.RegistryKey userDataConn = userData.OpenSubKey("RegConnList");
@@ -811,7 +813,8 @@ namespace DataExplorer
 
                 int sideBarWidth;
                 if (int.TryParse(userData.GetValue("SideBarWidth", 239).ToString(), out sideBarWidth))
-                    this.spltMain.SplitterDistance = sideBarWidth;
+                    if (sideBarWidth >= this.spltMain.Panel1MinSize && sideBarWidth <= this.spltMain.Width - this.spltMain.Panel2MinSize)
+                        this.spltMain.SplitterDistance = sideBarWidth;
 
                 // Load the Global Variables panel initial size.
                 bool varPanColp = Convert.ToBoolean(userData.GetValue("GblVarPanColp", false));
