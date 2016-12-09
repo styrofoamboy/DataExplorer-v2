@@ -12,4 +12,4 @@ I hope to change that in the future.
 
 There are little bugs here and there, but this version is largely considered "complete" at this point.  I have already started a
 complete re-write of the application, using Scintilla as the editor surface, instead of my home-grown control.  I plan to also
-encorporate the ability to group the active queries into folders, and have better management for unresolved transactions.
+incorporate the ability to group the active queries into folders, and have better management for unresolved transactions.
