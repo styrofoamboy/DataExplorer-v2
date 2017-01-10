@@ -2,12 +2,12 @@
 A powerful and flexible data query tool.
 
 NOTE:  The solution file does require several projects from the RainstormStudios repo.  You will need to download that code seperately.
-*RainstormStudios
-*RainstormStudios.Controls
-*RainstormStudios.Data
-*RainstormStudios.Data.DB2
-*RainstormStudios.Drawing
-*RainstormStudios.Unmanaged
+ * RainstormStudios
+ * RainstormStudios.Controls
+ * RainstormStudios.Data
+ * RainstormStudios.Data.DB2
+ * RainstormStudios.Drawing
+ * RainstormStudios.Unmanaged
 
 I started this project several years ago, as an easy way to connect with both SQL database instsances, as well as CSV and Excel files.
 
