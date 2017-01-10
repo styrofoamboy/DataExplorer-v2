@@ -9,8 +9,6 @@ using RainstormStudios.Data;
 
 namespace DataExplorer
 {
-    delegate void RecordReadEventHandler(object sender, RecordReadEventArgs e);
-    delegate void ResultStartedEventHandler(object sender, ResultStartedEventArgs e);
     class DataQuery : IDisposable
     {
         #region Declarations
@@ -282,6 +280,8 @@ namespace DataExplorer
         }
         #endregion
     }
+    delegate void RecordReadEventHandler(object sender, RecordReadEventArgs e);
+    delegate void ResultStartedEventHandler(object sender, ResultStartedEventArgs e);
     class RecordReadEventArgs : EventArgs
     {
         public readonly

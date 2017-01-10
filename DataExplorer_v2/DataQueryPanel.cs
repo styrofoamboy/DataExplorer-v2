@@ -12,10 +12,19 @@ using RainstormStudios.Collections;
 
 namespace DataExplorer
 {
-    internal delegate void CaratPosChangedEventHandler(object sender, CaratPosChangedEventArgs e);
-    internal delegate void ScriptRecordEventHandler(object sender, ScriptRecordEventArgs e);
     partial class DataQueryPanel : RainstormStudios.Controls.RsUserControlBase
     {
+        #region Nested Types
+        //***************************************************************************
+        // Enums
+        // 
+        private enum ScriptType
+        {
+            Insert,
+            Update
+        }
+        #endregion
+
         #region Declarations
         //***************************************************************************
         // Private Fields
@@ -518,37 +527,34 @@ namespace DataExplorer
         }
         private ObjectCollection GetScriptVals()
         {
-            //if (this._cntxMenu.SelectedCells.Count < 1)
-            //{
-            //    MessageBox.Show(this.FindForm(), "You must select the key field of the record you want to script.", "Error");
-            //    return null;
-            //}
-            //else if (this._cntxMenu.SelectedCells.Count > 1)
-            //{
-            //    MessageBox.Show(this.FindForm(), "Only one record can be scripted at a time.\n\nPlease select a single cell.", "Error");
-            //    return null;
-            //}
+            if (this._cntxMenu.SelectedCells.Count < 1)
+            {
+                MessageBox.Show(this.FindForm(), "You must select the key field of the record you want to script.", "Error");
+                return null;
+            }
+            else if (this._cntxMenu.SelectedCells.Count > 1)
+            {
+                MessageBox.Show(this.FindForm(), "Only one record can be scripted at a time.\n\nPlease select a single cell.", "Error");
+                return null;
+            }
 
-            //int rowIdx=this._cntxMenu.SelectedCells[0].RowIndex;
-            //StringCollection strCols = new StringCollection();
-            //for (int i = 0; i < this._cntxMenu.ColumnCount; i++)
-            //    strCols.Add(this._cntxMenu.Columns[i].Name);
+            int rowIdx = this._cntxMenu.SelectedCells[0].RowIndex;
+            StringCollection strCols = new StringCollection();
+            for (int i = 0; i < this._cntxMenu.ColumnCount; i++)
+                strCols.Add(this._cntxMenu.Columns[i].Name);
 
-            //bool[] incl = null;
-            //using (frmTemplateVars frm = new frmTemplateVars(strCols.GetFlatArray(), "Select Fields to Include"))
-            //    if (frm.ShowDialog(this.FindForm()) == DialogResult.OK)
-            //    {
-            //        incl = frm.BoolValues;
-            //    }
-            //    else
-            //        return null;
+            bool[] incl = null;
+            using (frmTemplateVars frm = new frmTemplateVars(strCols.ToArray(), "Select Fields to Include"))
+                if (frm.ShowDialog(this.FindForm()) == DialogResult.OK)
+                    incl = frm.BoolValues;
+                else
+                    return null;
 
-            //ObjectCollection objCol = new ObjectCollection();
-            //for (int i = 0; i < incl.Length; i++)
-            //    if (incl[i])
-            //        objCol.Add(this._cntxMenu.Rows[rowIdx].Cells[i].Value, this._cntxMenu.Columns[i].Name);
-            //return objCol;
-            return null;
+            ObjectCollection objCol = new ObjectCollection();
+            for (int i = 0; i < incl.Length; i++)
+                if (incl[i])
+                    objCol.Add(this._cntxMenu.Rows[rowIdx].Cells[i].Value, this._cntxMenu.Columns[i].Name);
+            return objCol;
         }
         private void SaveDataToFile(string filename)
         {
@@ -599,6 +605,68 @@ namespace DataExplorer
         internal void SetOwner(DataPanelManager owner)
         {
             this._owner = owner;
+        }
+        private void ScriptRecord(ScriptType type)
+        {
+            ObjectCollection objCol = this.GetScriptVals();
+
+            if (objCol == null)
+                return;
+
+            StringCollection lns = new StringCollection();
+
+            if (type == ScriptType.Insert)
+                lns.Add("INSERT INTO <choose table name>");
+            else if (type == ScriptType.Update)
+                lns.Add("UPDATE <choose table name> SET");
+            else
+                throw new NotSupportedException("Invalid ScriptType.");
+
+            for (int i = 0; i < objCol.Count; i++)
+            {
+                if (type == ScriptType.Insert)
+                {
+                    if (i == 0)
+                    {
+                        lns.Add("(");
+                        lns.Add("VALUES");
+                        lns.Add("(");
+                    }
+                    else
+                    {
+                        lns[1] += ",";
+                        lns[3] += ",";
+                    }
+                    lns[1] += string.Format("[{0}]", objCol.GetKey(i));
+                    lns[3] += string.Format("{1}{0}{1}", objCol[i], objCol.GetKey(i).ToLower().EndsWith("id") ? "" : "'");
+                }
+                else if (type == ScriptType.Update)
+                {
+                    string ln = null;
+                    if (i == 0)
+                        ln = " ";
+                    else
+                        ln = ",";
+                    ln += string.Format("SET [{0}] = {2}{1}{2}", objCol.GetKey(i), objCol[i], objCol.GetKey(i).ToLower().EndsWith("id") ? "" : "'");
+                    lns.Add(ln);
+                }
+            }
+
+            if (type == ScriptType.Insert)
+            {
+                lns[1] += ")";
+                lns[3] += ")";
+            }
+            else if (type == ScriptType.Update)
+                lns.Add("WHERE <key> = <id>");
+
+            this.txtQuery.AppendText(string.Format("\r\n\r\n{0}\r\n", string.Join("\n", lns.ToArray())));
+            this.txtQuery.Parse();
+
+            if (type == ScriptType.Insert)
+                this.OnScriptInsert(lns.ToArray());
+            else if (type == ScriptType.Update)
+                this.OnScriptUpdate(lns.ToArray());
         }
         #endregion
 
@@ -812,26 +880,10 @@ namespace DataExplorer
                     this.StartFind();
                     break;
                 case "mnuDgScriptInsert":
-                    {
-                        //ObjectCollection objCol = this.GetScriptVals();
-                        //StringCollection lns = new StringCollection();
-                        //lns.Add("INSERT INTO <choose table name>");
-                        //lns.Add("(");
-                        //for (int i = 0; i < objCol.Count; i++)
-                        //    lns.Add(string.Format("\t{0}{1}", (i > 0) ? "," : " ", objCol.GetKey(i)));
-                        //lns.Add(") VALUES (");
-                        //for(int i=0;i<objCol.Count;i++)
-                        //    lns.Add(string.Format("\t{0}{1}"
-                        //this.txtQuery.AppendText(string.Join("\n", lns.GetFlatArray()));
-                        //this.InvokeScriptInsert(objCol.GetFlatArray());
-                    }
+                    this.ScriptRecord(ScriptType.Insert);
                     break;
                 case "mnuDgScriptUpdate":
-                    {
-                        //ObjectCollection objCol = this.GetScriptVals();
-
-                        //this.InvokeScriptUpdate(objCol.GetFlatArray());
-                    }
+                    this.ScriptRecord(ScriptType.Update);
                     break;
             }
         }
@@ -1194,6 +1246,8 @@ namespace DataExplorer
         }
         #endregion
     }
+    internal delegate void CaratPosChangedEventHandler(object sender, CaratPosChangedEventArgs e);
+    internal delegate void ScriptRecordEventHandler(object sender, ScriptRecordEventArgs e);
     internal class CaratPosChangedEventArgs : EventArgs
     {
         public readonly int
